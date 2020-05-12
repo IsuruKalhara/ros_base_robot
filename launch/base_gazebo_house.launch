@@ -1,0 +1,43 @@
+<launch>
+  <arg name="model" default="$(find base_robot)/models/base.xacro"/>
+  <arg name="config" default="$(find base_robot)/config/robot_control.yaml"/>
+  <arg name="world" default="$(find base_robot)/worlds/house.world"/>
+  <arg name="x_pos" default="-3.0"/>
+  <arg name="y_pos" default="1.0"/>
+  <arg name="z_pos" default="0.0"/>
+
+  <arg name="rvizconfig" default="$(find urdf_tutorial)/rviz/urdf.rviz" />
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(arg world)"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+  <param name="robot_description" command="$(find xacro)/xacro.py $(arg model)" />
+
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" 
+        args="-urdf -model base -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -param robot_description" 
+				output="screen" />
+
+	<rosparam command="load" file="$(arg config)"/>
+ 
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" />
+
+  <node name="controller_spawner" pkg="controller_manager" type="spawner"
+     args="joint_state_controller
+					diff_drive_controller"/>
+
+  <node pkg="robot_state_publisher" type="robot_state_publisher"  name="robot_state_publisher">
+    <param name="publish_frequency" type="double" value="30.0" />
+  </node>
+
+	<node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop">
+    <remap from="cmd_vel" to="diff_drive_controller/cmd_vel"/>
+  </node>
+
+
+</launch>
