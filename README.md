@@ -7,6 +7,8 @@ You can use this to learn how to use,
  - using macros in urdf
  - adding world files to your gazebo environment 
 
+depends on turtlebot3_simulations for world model
+
 ## Gazebo view
 <img src="Images/2.png" width="700"/>
 
