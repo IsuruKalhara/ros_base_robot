@@ -3,6 +3,9 @@
 
   <xacro:include filename="$(find base_robot)/models/base.gazebo" />
 	
+	<xacro:arg name="robot_param" default="robot_description"/>
+	<xacro:base_gazebo robot_parameter_name="$(arg robot_param)"/>
+
 	<xacro:property name="pi" value="3.1415" />
 
   <xacro:macro name="cylinder_inertia" params="m r h">

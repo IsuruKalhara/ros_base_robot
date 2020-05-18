@@ -1,5 +1,14 @@
 <?xml version="1.0"?>
-<robot>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+	<!--ros_control connection with Gazebo-->
+	<xacro:macro name="base_gazebo" params="robot_parameter_name">
+		<gazebo>
+		  <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+				<robotParam>${robot_parameter_name}</robotParam>
+		  </plugin>
+		</gazebo>
+	</xacro:macro>
 
 	<gazebo reference="left_wheel">
     <mu1 value="100.0"/>
@@ -43,12 +52,6 @@
     <material>Gazebo/FlatBlack</material>
   </gazebo>
 
-  <!--ros_control connection with Gazebo-->
-	<gazebo>
-    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-      <robotNamespace>/</robotNamespace>
-    </plugin>
-  </gazebo>
 
   <!-- hokuyo -->
   <gazebo reference="hokuyo_link">
@@ -124,5 +127,5 @@
   <gazebo reference="base_link">
       <material>Gazebo/Orange</material>
   </gazebo>
-
+	
 </robot>
