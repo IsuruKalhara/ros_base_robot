@@ -1,4 +1,4 @@
-# ros_gazebo_base_model
+# Gazebo model for base_robot
 Hello. This is a simple differential drive robot consists of a LiDAR and a RGB Camera.
 
 You can use this to learn how to use,
